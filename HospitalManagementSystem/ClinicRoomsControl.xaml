@@ -1,0 +1,180 @@
+﻿<UserControl x:Class="HospitalManagementSystem.ClinicRoomsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- FORM NHẬP LIỆU PHÒNG KHÁM -->
+        <Border Grid.Column="0"
+                Style="{StaticResource CardBorderStyle}"
+                Margin="0,0,10,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="THÔNG TIN PHÒNG KHÁM" 
+                               Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <Label Content="Mã phòng:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtRoomCode" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Tên phòng:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtRoomName" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Khoa:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbRoomDepartment" 
+                              Style="{StaticResource FormComboBoxStyle}"
+                              DisplayMemberPath="DepartmentName" 
+                              SelectedValuePath="DepartmentId"/>
+
+                    <Label Content="Tầng:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtRoomFloor" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Loại phòng:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbRoomType" 
+                              Style="{StaticResource FormComboBoxStyle}">
+                        <ComboBoxItem Content="Khám tổng quát"/>
+                        <ComboBoxItem Content="Khám chuyên khoa"/>
+                        <ComboBoxItem Content="Siêu âm"/>
+                        <ComboBoxItem Content="Nội soi"/>
+                        <ComboBoxItem Content="Xét nghiệm"/>
+                        <ComboBoxItem Content="Cấp cứu"/>
+                    </ComboBox>
+
+                    <Label Content="Sức chứa:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtRoomCapacity" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Trạng thái:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbRoomStatus" 
+                              Style="{StaticResource FormComboBoxStyle}">
+                        <ComboBoxItem Content="Đang hoạt động" IsSelected="True"/>
+                        <ComboBoxItem Content="Bảo trì"/>
+                        <ComboBoxItem Content="Đóng cửa"/>
+                    </ComboBox>
+
+                    <Label Content="Thiết bị:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtRoomEquipment" 
+                             Style="{StaticResource FormTextBoxMultilineStyle}"
+                             Height="80"/>
+
+                    <CheckBox x:Name="chkIsAvailable" 
+                              Content="Phòng sẵn sàng hoạt động" 
+                              IsChecked="True"
+                              FontSize="13"
+                              Margin="0,10,0,20"/>
+
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center" 
+                                Margin="0,10,0,0">
+                        <Button x:Name="btnAddRoom" 
+                                Content="Thêm" 
+                                Style="{StaticResource AddButtonStyle}"
+                                Click="btnAddRoom_Click"/>
+                        <Button x:Name="btnUpdateRoom" 
+                                Content="Sửa" 
+                                Style="{StaticResource UpdateButtonStyle}"
+                                Click="btnUpdateRoom_Click"/>
+                        <Button x:Name="btnDeleteRoom" 
+                                Content="Xóa" 
+                                Style="{StaticResource DeleteButtonStyle}"
+                                Click="btnDeleteRoom_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- DATAGRID PHÒNG KHÁM -->
+        <Border Grid.Column="1"
+                Style="{StaticResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header với filter -->
+                <Grid Grid.Row="0" Margin="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="DANH SÁCH PHÒNG KHÁM" 
+                               Style="{StaticResource DataGridHeaderStyle}"
+                               VerticalAlignment="Center"/>
+
+                    <!-- ComboBox lọc theo khoa -->
+                    <ComboBox Grid.Column="1"
+                              x:Name="cmbFilterDepartment" 
+                              Width="200"
+                              DisplayMemberPath="DepartmentName"
+                              SelectedValuePath="DepartmentId"
+                              SelectionChanged="cmbFilterDepartment_SelectionChanged">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Height" Value="30"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                </Grid>
+
+                <!-- DataGrid -->
+                <DataGrid x:Name="dgClinicRooms" 
+                          Grid.Row="1"
+                          Style="{StaticResource CustomDataGridStyle}"
+                          SelectionChanged="dgClinicRooms_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" 
+                                            Binding="{Binding RoomId}" 
+                                            Width="50"/>
+                        <DataGridTextColumn Header="Mã phòng" 
+                                            Binding="{Binding RoomCode}" 
+                                            Width="90"/>
+                        <DataGridTextColumn Header="Tên phòng" 
+                                            Binding="{Binding RoomName}" 
+                                            Width="*"
+                                            MinWidth="150"/>
+                        <DataGridTextColumn Header="Khoa" 
+                                            Binding="{Binding Department.DepartmentName}" 
+                                            Width="130"/>
+                        <DataGridTextColumn Header="Tầng" 
+                                            Binding="{Binding Floor}" 
+                                            Width="60"/>
+                        <DataGridTextColumn Header="Loại phòng" 
+                                            Binding="{Binding RoomType}" 
+                                            Width="120"/>
+                        <DataGridTextColumn Header="Sức chứa" 
+                                            Binding="{Binding Capacity}" 
+                                            Width="80"/>
+                        <DataGridTextColumn Header="Trạng thái" 
+                                            Binding="{Binding Status}" 
+                                            Width="120"/>
+                        <DataGridCheckBoxColumn Header="Sẵn sàng" 
+                                                Binding="{Binding IsAvailable}" 
+                                                Width="80"
+                                                IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

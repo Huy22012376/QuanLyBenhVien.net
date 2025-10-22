@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="HospitalManagementSystem.AccountsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- FORM NHẬP LIỆU TÀI KHOẢN -->
+        <Border Grid.Column="0"
+                Style="{StaticResource CardBorderStyle}"
+                Margin="0,0,10,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="THÔNG TIN TÀI KHOẢN" 
+                               Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <Label Content="Tên đăng nhập:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtAccountUsername" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Mật khẩu:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <PasswordBox x:Name="txtAccountPassword" 
+                                 Height="32"
+                                 FontSize="13"
+                                 Margin="0,3,0,10"
+                                 Padding="6"/>
+
+                    <Label Content="Họ và Tên:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtAccountFullName" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Vai trò:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbAccountRole" 
+                              Style="{StaticResource FormComboBoxStyle}">
+                        <ComboBoxItem Content="Admin"/>
+                        <ComboBoxItem Content="Doctor"/>
+                        <ComboBoxItem Content="Nurse"/>
+                        <ComboBoxItem Content="Receptionist"/>
+                        <ComboBoxItem Content="User"/>
+                    </ComboBox>
+
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center" 
+                                Margin="0,30,0,0">
+                        <Button x:Name="btnAddAccount" 
+                                Content="Thêm" 
+                                Style="{StaticResource AddButtonStyle}"
+                                Click="btnAddAccount_Click"/>
+                        <Button x:Name="btnUpdateAccount" 
+                                Content="Sửa" 
+                                Style="{StaticResource UpdateButtonStyle}"
+                                Click="btnUpdateAccount_Click"/>
+                        <Button x:Name="btnDeleteAccount" 
+                                Content="Xóa" 
+                                Style="{StaticResource DeleteButtonStyle}"
+                                Click="btnDeleteAccount_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- DATAGRID TÀI KHOẢN -->
+        <Border Grid.Column="1"
+                Style="{StaticResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="DANH SÁCH TÀI KHOẢN" 
+                           Style="{StaticResource DataGridHeaderStyle}"/>
+
+                <DataGrid x:Name="dgAccounts" 
+                          Grid.Row="1"
+                          Style="{StaticResource CustomDataGridStyle}"
+                          SelectionChanged="dgAccounts_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" 
+                                            Binding="{Binding UserId}" 
+                                            Width="50"/>
+                        <DataGridTextColumn Header="Tên đăng nhập" 
+                                            Binding="{Binding Username}" 
+                                            Width="150"/>
+                        <DataGridTextColumn Header="Mật khẩu" 
+                                            Binding="{Binding Password}" 
+                                            Width="150"/>
+                        <DataGridTextColumn Header="Họ và Tên" 
+                                            Binding="{Binding FullName}" 
+                                            Width="*"
+                                            MinWidth="150"/>
+                        <DataGridTextColumn Header="Vai trò" 
+                                            Binding="{Binding Role}" 
+                                            Width="120"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

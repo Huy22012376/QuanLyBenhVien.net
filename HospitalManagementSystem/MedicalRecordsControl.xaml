@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="HospitalManagementSystem.MedicalRecordsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- DANH SÁCH BỆNH NHÂN BÊN TRÁI -->
+        <Border Grid.Column="0" 
+                Style="{StaticResource CardBorderStyle}"
+                Margin="0,0,10,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="TÌM BỆNH NHÂN" 
+                           Style="{StaticResource SectionHeaderStyle}"/>
+
+                <StackPanel Grid.Row="1" Margin="10">
+                    <TextBox x:Name="txtSearchPatient" 
+                             Style="{StaticResource FormTextBoxStyle}"
+                             TextChanged="txtSearchPatient_TextChanged"/>
+                    <TextBlock Text="Tìm theo tên hoặc số điện thoại"
+                               FontSize="11"
+                               Foreground="Gray"
+                               Margin="5,2,0,0"/>
+                </StackPanel>
+
+                <ListBox x:Name="lstPatients"
+                         Grid.Row="2"
+                         SelectionChanged="lstPatients_SelectionChanged"
+                         Margin="10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <TextBlock Text="{Binding FullName}" 
+                                           FontWeight="Bold"
+                                           FontSize="13"/>
+                                <TextBlock Text="{Binding PhoneNumber}" 
+                                           FontSize="11"
+                                           Foreground="Gray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER VỚI CÁC NÚT -->
+            <Border Grid.Row="0"
+                    Style="{StaticResource CardBorderStyle}"
+                    Margin="0,0,0,10"
+                    Padding="15">
+                <StackPanel>
+                    <TextBlock x:Name="txtPatientInfo"
+                               Text="Chọn bệnh nhân để xem sổ bệnh án"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnCreateRecord"
+                                Content="📋 Tạo sổ BA mới"
+                                Style="{StaticResource AddButtonStyle}"
+                                Width="150"
+                                Click="btnCreateRecord_Click"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="btnViewAllRecords"
+                                Content="📚 Xem tất cả sổ BA"
+                                Background="#2196F3"
+                                Foreground="White"
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Padding="10,8"
+                                FontSize="13"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="btnViewAllRecords_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- DATAGRID SỔ BỆNH ÁN -->
+            <Border Grid.Row="1"
+                    Style="{StaticResource CardBorderStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="DANH SÁCH SỔ BỆNH ÁN"
+                               Style="{StaticResource DataGridHeaderStyle}"/>
+
+                    <DataGrid x:Name="dgMedicalRecords"
+                              Grid.Row="1"
+                              Style="{StaticResource CustomDataGridStyle}"
+                              MouseDoubleClick="dgMedicalRecords_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã SBA" 
+                                                Binding="{Binding RecordCode}" 
+                                                Width="80"/>
+                            <DataGridTextColumn Header="Bệnh nhân" 
+                                                Binding="{Binding Patient.FullName}" 
+                                                Width="150"/>
+                            <DataGridTextColumn Header="Bác sĩ" 
+                                                Binding="{Binding Doctor.FullName}" 
+                                                Width="130"/>
+                            <DataGridTextColumn Header="Ngày nhập viện" 
+                                                Binding="{Binding AdmissionDate, StringFormat='dd/MM/yyyy'}" 
+                                                Width="120"/>
+                            <DataGridTextColumn Header="Chẩn đoán" 
+                                                Binding="{Binding InitialDiagnosis}" 
+                                                Width="*"
+                                                MinWidth="200"/>
+                            <DataGridTextColumn Header="Trạng thái" 
+                                                Binding="{Binding Status}" 
+                                                Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,113 @@
+﻿<Window x:Class="HospitalManagementSystem.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Đăng nhập - Hệ thống Quản lý Bệnh viện" 
+        Height="700" Width="600" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Background="#F0F4F8">
+        <Border Background="White" 
+                CornerRadius="10" 
+                Padding="40" 
+                Margin="50"
+                BorderBrush="#E0E0E0" 
+                BorderThickness="1">
+            <StackPanel>
+                <!-- Tiêu đề -->
+                <TextBlock Text="ĐĂNG NHẬP HỆ THỐNG" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#2C3E50"
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,30"/>
+
+                <!-- Tên tài khoản -->
+                <Label Content="Tên tài khoản:" 
+                       FontSize="14" 
+                       Foreground="#34495E"/>
+                <TextBox x:Name="txtUsername" 
+                         Height="35" 
+                         FontSize="14"
+                         Margin="0,5,0,15"
+                         Padding="8"/>
+
+                <!-- Mật khẩu -->
+                <Label Content="Mật khẩu:" 
+                       FontSize="14" 
+                       Foreground="#34495E"/>
+                <PasswordBox x:Name="txtPassword" 
+                             Height="35" 
+                             FontSize="14"
+                             Margin="0,5,0,20"
+                             Padding="8"/>
+
+                <!-- Nút đăng nhập -->
+                <Button x:Name="btnLogin" 
+                        Content="ĐĂNG NHẬP" 
+                        Height="40"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Background="#3498DB"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="btnLogin_Click"
+                        IsDefault="True">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#3498DB"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2980B9"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Link đăng ký -->
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            Margin="0,20,0,0">
+                    <TextBlock Text="Nếu chưa có tài khoản, hãy nhấp vào " 
+                               FontSize="12" 
+                               Foreground="#7F8C8D"
+                               VerticalAlignment="Center"/>
+                    <Button x:Name="btnGoToRegister" 
+                            Content="ĐĂNG KÝ TÀI KHOẢN" 
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Foreground="#E74C3C"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="btnGoToRegister_Click"
+                            Padding="0"
+                            VerticalAlignment="Center">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <TextBlock Text="{TemplateBinding Content}" 
+                                                       TextDecorations="Underline"
+                                                       Foreground="{TemplateBinding Foreground}"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="#C0392B"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

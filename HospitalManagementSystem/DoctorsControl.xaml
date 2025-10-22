@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="HospitalManagementSystem.DoctorsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- FORM NHẬP LIỆU BÁC SĨ -->
+        <Border Grid.Column="0"
+                Style="{StaticResource CardBorderStyle}"
+                Margin="0,0,10,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="THÔNG TIN BÁC SĨ" 
+                               Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <Label Content="Họ và Tên:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtDoctorFullName" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Ngày sinh:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <DatePicker x:Name="dpDoctorDateOfBirth" 
+                                Style="{StaticResource FormDatePickerStyle}"/>
+
+                    <Label Content="Giới tính:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbDoctorGender" 
+                              Style="{StaticResource FormComboBoxStyle}">
+                        <ComboBoxItem Content="Nam"/>
+                        <ComboBoxItem Content="Nữ"/>
+                    </ComboBox>
+
+                    <Label Content="Số điện thoại:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtDoctorPhone" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Email:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtDoctorEmail" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Địa chỉ:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtDoctorAddress" 
+                             Style="{StaticResource FormTextBoxStyle}"/>
+
+                    <Label Content="Chuyên khoa:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbDoctorDepartment" 
+                              Style="{StaticResource FormComboBoxStyle}"
+                              DisplayMemberPath="DepartmentName" 
+                              SelectedValuePath="DepartmentId"/>
+
+                    <Label Content="Bằng cấp:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <ComboBox x:Name="cmbDoctorDegree" 
+                              Style="{StaticResource FormComboBoxStyle}">
+                        <ComboBoxItem Content="Bác sĩ"/>
+                        <ComboBoxItem Content="Thạc sĩ"/>
+                        <ComboBoxItem Content="Tiến sĩ"/>
+                        <ComboBoxItem Content="Giáo sư"/>
+                    </ComboBox>
+
+                    <Label Content="Số năm kinh nghiệm:" 
+                           Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox x:Name="txtDoctorExperience" 
+                             Style="{StaticResource FormTextBoxStyle}"
+                             Margin="0,3,0,15"/>
+
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center" 
+                                Margin="0,10,0,0">
+                        <Button x:Name="btnAddDoctor" 
+                                Content="Thêm" 
+                                Style="{StaticResource AddButtonStyle}"
+                                Click="btnAddDoctor_Click"/>
+                        <Button x:Name="btnUpdateDoctor" 
+                                Content="Sửa" 
+                                Style="{StaticResource UpdateButtonStyle}"
+                                Click="btnUpdateDoctor_Click"/>
+                        <Button x:Name="btnDeleteDoctor" 
+                                Content="Xóa" 
+                                Style="{StaticResource DeleteButtonStyle}"
+                                Click="btnDeleteDoctor_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- DATAGRID BÁC SĨ -->
+        <Border Grid.Column="1"
+                Style="{StaticResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="DANH SÁCH BÁC SĨ" 
+                           Style="{StaticResource DataGridHeaderStyle}"/>
+
+                <DataGrid x:Name="dgDoctors" 
+                          Grid.Row="1"
+                          Style="{StaticResource CustomDataGridStyle}"
+                          SelectionChanged="dgDoctors_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" 
+                                            Binding="{Binding DoctorId}" 
+                                            Width="50"/>
+                        <DataGridTextColumn Header="Họ và Tên" 
+                                            Binding="{Binding FullName}" 
+                                            Width="*"
+                                            MinWidth="150"/>
+                        <DataGridTextColumn Header="Chuyên khoa" 
+                                            Binding="{Binding Department.DepartmentName}" 
+                                            Width="130"/>
+                        <DataGridTextColumn Header="Bằng cấp" 
+                                            Binding="{Binding Degree}" 
+                                            Width="100"/>
+                        <DataGridTextColumn Header="SĐT" 
+                                            Binding="{Binding PhoneNumber}" 
+                                            Width="110"/>
+                        <DataGridTextColumn Header="Email" 
+                                            Binding="{Binding Email}" 
+                                            Width="180"/>
+                        <DataGridTextColumn Header="Kinh nghiệm" 
+                                            Binding="{Binding YearsOfExperience}" 
+                                            Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

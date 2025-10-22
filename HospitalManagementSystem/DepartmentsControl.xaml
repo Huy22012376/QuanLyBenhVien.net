@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="HospitalManagementSystem.DepartmentsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- FORM NHẬP LIỆU KHOA -->
+        <Border Grid.Column="0"
+                Style="{StaticResource CardBorderStyle}"
+                Margin="0,0,10,0">
+            <StackPanel>
+                <TextBlock Text="THÔNG TIN KHOA" 
+                           Style="{StaticResource SectionHeaderStyle}"/>
+
+                <Label Content="Tên khoa:" 
+                       Style="{StaticResource FormLabelStyle}"/>
+                <TextBox x:Name="txtDepartmentName" 
+                         Style="{StaticResource FormTextBoxStyle}"/>
+
+                <Label Content="Mô tả:" 
+                       Style="{StaticResource FormLabelStyle}"/>
+                <TextBox x:Name="txtDepartmentDescription" 
+                         Style="{StaticResource FormTextBoxMultilineStyle}"
+                         Height="150"/>
+
+                <StackPanel Margin="0,20,0,0">
+                    <Button x:Name="btnAddDepartment" 
+                            Content="Thêm Khoa" 
+                            Style="{StaticResource AddButtonStyle}"
+                            Width="Auto"
+                            Margin="0,0,0,10"
+                            Click="btnAddDepartment_Click"/>
+                    <Button x:Name="btnUpdateDepartment" 
+                            Content="Cập nhật Khoa" 
+                            Style="{StaticResource UpdateButtonStyle}"
+                            Width="Auto"
+                            Margin="0,0,0,10"
+                            Click="btnUpdateDepartment_Click"/>
+                    <Button x:Name="btnDeleteDepartment" 
+                            Content="Xóa Khoa" 
+                            Style="{StaticResource DeleteButtonStyle}"
+                            Width="Auto"
+                            Click="btnDeleteDepartment_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- DATAGRID KHOA -->
+        <Border Grid.Column="1"
+                Style="{StaticResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="DANH SÁCH CÁC KHOA" 
+                           Style="{StaticResource DataGridHeaderStyle}"/>
+
+                <DataGrid x:Name="dgDepartments" 
+                          Grid.Row="1"
+                          Style="{StaticResource CustomDataGridStyle}"
+                          SelectionChanged="dgDepartments_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" 
+                                            Binding="{Binding DepartmentId}" 
+                                            Width="60"/>
+                        <DataGridTextColumn Header="Tên khoa" 
+                                            Binding="{Binding DepartmentName}" 
+                                            Width="200"/>
+                        <DataGridTextColumn Header="Mô tả" 
+                                            Binding="{Binding Description}" 
+                                            Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

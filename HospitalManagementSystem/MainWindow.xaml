@@ -1,0 +1,400 @@
+﻿<Window x:Class="HospitalManagementSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HospitalManagementSystem"
+        mc:Ignorable="d"
+        Title="Hệ thống Quản lý Bệnh viện" 
+        Height="920" Width="1300" 
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Loaded="Window_Loaded">
+    <Grid Background="#F8F9FA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="colMenu" Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Tiêu đề chính -->
+        <Border Grid.Row="0" Grid.Column="1" 
+                Style="{StaticResource HeaderBorderStyle}" Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="HỆ THỐNG QUẢN LÝ BỆNH VIỆN" 
+                           Style="{StaticResource PageTitleStyle}"/>
+                <TextBlock x:Name="txtPageTitle"
+                           Text="Quản lý thông tin bệnh nhân" 
+                           Style="{StaticResource PageSubtitleStyle}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- MENU BÊN TRÁI -->
+        <Border Grid.Row="1" Grid.Column="0" 
+                Style="{StaticResource MenuBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Nút thu gọn menu -->
+                <Border Grid.Row="0" 
+                        Background="#1565C0" 
+                        Padding="10,5" Margin="0,-94,0,94">
+                    <Button x:Name="btnToggleMenu"
+                            Content="☰" 
+                            Width="30"
+                            Height="30"
+                            FontSize="18"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            HorizontalAlignment="Right"
+                            Click="btnToggleMenu_Click"
+                            ToolTip="Thu gọn/Mở rộng menu"/>
+                </Border>
+
+                <!-- Nội dung menu -->
+                <ScrollViewer x:Name="menuContent" 
+                              VerticalScrollBarVisibility="Auto" Margin="0,-54,0,0" Grid.RowSpan="2">
+                    <StackPanel>
+                        <!-- Thông tin người dùng -->
+                        <Border Style="{StaticResource UserInfoBorderStyle}" Height="141">
+                            <StackPanel>
+                                <Ellipse Width="60" 
+                                         Height="60" 
+                                         Fill="#FFF"
+                                         Margin="0,0,0,10">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect ShadowDepth="2" BlurRadius="5" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock x:Name="txtUserName"
+                                           Text="Admin" 
+                                           Style="{StaticResource UserNameStyle}"/>
+                                <TextBlock x:Name="txtUserRole"
+                                           Text="Quản trị viên" 
+                                           Style="{StaticResource UserRoleStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- NHÓM 1: QUẢN LÝ -->
+                        <Button x:Name="btnExpandManagement"
+                                Content="📋  Quản lý  ▼" 
+                                Style="{StaticResource MenuButtonStyle}"
+                                Click="btnExpandManagement_Click"/>
+
+                        <StackPanel x:Name="pnlManagement" Visibility="Visible">
+                            <Button x:Name="btnMenuPatients"
+                                    Content="     👥  Quản lý Bệnh nhân" 
+                                    Style="{StaticResource MenuButtonActiveStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuPatients_Click"/>
+
+                            <Button x:Name="btnMenuDoctors"
+                                    Content="     👨‍⚕️  Quản lý Bác sĩ" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuDoctors_Click"/>
+
+                            <Button x:Name="btnMenuMedicalRecords"
+                                    Content="     📄  Số bệnh án" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuMedicalRecords_Click"/>
+
+                            <Button x:Name="btnMenuClinicRooms"
+                                    Content="     🏥  Quản lý Phòng khám" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuClinicRooms_Click"/>
+
+                            <Button x:Name="btnMenuDepartments"
+                                    Content="     🏢  Quản lý Khoa" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuDepartments_Click"/>
+
+                            <Button x:Name="btnMenuAccounts"
+                                    Content="     👤  Quản lý Tài khoản" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuAccounts_Click"/>
+
+                        </StackPanel>
+
+                        <!-- Separator -->
+                        <Border Height="1" Background="#64B5F6" Margin="10,10"/>
+
+                        <!-- NHÓM 2: DỊCH VỤ -->
+                        <Button x:Name="btnExpandServices"
+                                Content="🔧  Dịch vụ  ▼" 
+                                Style="{StaticResource MenuButtonStyle}"
+                                Click="btnExpandServices_Click"/>
+
+                        <StackPanel x:Name="pnlServices" Visibility="Collapsed">
+                            <Button x:Name="btnMenuRoomsBeds"
+                                    Content="     🛏️  Phòng bệnh - Giường bệnh" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuRoomsBeds_Click"/>
+
+                            <Button x:Name="btnMenuBedAssignment"
+                                    Content="     📊  Phân giường - Theo dõi ĐT" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuBedAssignment_Click"/>
+
+                            <Button x:Name="btnMenuTestsScans"
+                                    Content="     🔬  Xét nghiệm - Chụp chiếu" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuTestsScans_Click"/>
+
+                            <Button x:Name="btnMenuSurgery"
+                                    Content="     ⚕️  Loại PT - Phẫu thuật" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuSurgery_Click"/>
+
+                            <Button x:Name="btnMenuExamination"
+                                    Content="     🩺  Khám bệnh" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuExamination_Click"/>
+
+                            <Button x:Name="btnMenuMedicines"
+                                    Content="     💊  Thuốc" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuMedicines_Click"/>
+
+                            <Button x:Name="btnMenuPositions"
+                                    Content="     👔  Chức vụ" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuPositions_Click"/>
+
+                            <Button x:Name="btnMenuServiceUsage"
+                                    Content="     📝  Sử dụng dịch vụ" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuServiceUsage_Click"/>
+
+                            <Button x:Name="btnMenuExamForm"
+                                    Content="     📋  Phiếu khám" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnMenuExamForm_Click"/>
+                        </StackPanel>
+
+                        <!-- Separator -->
+                        <Border Height="1" Background="#64B5F6" Margin="10,10"/>
+
+                        <!-- NHÓM 3: TRA CỨU -->
+                        <Button x:Name="btnExpandSearch"
+                                Content="🔍  Tra cứu  ▼" 
+                                Style="{StaticResource MenuButtonStyle}"
+                                Click="btnExpandSearch_Click"/>
+
+                        <StackPanel x:Name="pnlSearch" Visibility="Collapsed">
+                            <Button x:Name="btnSearchStaff"
+                                    Content="     👥  Danh sách Nhân viên" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnSearchStaff_Click"/>
+
+                            <Button x:Name="btnSearchRoomInfo"
+                                    Content="     🏥  Thông tin Phòng bệnh" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnSearchRoomInfo_Click"/>
+
+                            <Button x:Name="btnSearchMedicalRecord"
+                                    Content="     📄  Thông tin Số bệnh án" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnSearchMedicalRecord_Click"/>
+
+                            <Button x:Name="btnSearchPrescription"
+                                    Content="     💊  Thông tin Đơn thuốc" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnSearchPrescription_Click"/>
+
+                            <Button x:Name="btnSearchPatientList"
+                                    Content="     📋  Danh sách Bệnh nhân" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnSearchPatientList_Click"/>
+                        </StackPanel>
+
+                        <!-- Separator -->
+                        <Border Height="1" Background="#64B5F6" Margin="10,10"/>
+
+                        <!-- NHÓM 4: BÁO CÁO -->
+                        <Button x:Name="btnExpandReports"
+                                Content="📊  Báo cáo  ▼" 
+                                Style="{StaticResource MenuButtonStyle}"
+                                Click="btnExpandReports_Click"/>
+
+                        <StackPanel x:Name="pnlReports" Visibility="Collapsed">
+                            <Button x:Name="btnReportExamination"
+                                    Content="     🩺  Báo cáo Khám bệnh" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnReportExamination_Click"/>
+
+                            <Button x:Name="btnReportTreatment"
+                                    Content="     💉  Báo cáo Chữa bệnh" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnReportTreatment_Click"/>
+
+                            <Button x:Name="btnReportRevenue"
+                                    Content="     💰  Báo cáo Doanh thu" 
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    FontSize="13"
+                                    Height="45"
+                                    Click="btnReportRevenue_Click"/>
+                        </StackPanel>
+
+                        <!-- Separator -->
+                        <Border Height="1" Background="#64B5F6" Margin="10,10"/>
+
+                        <!-- CÀI ĐẶT VÀ ĐĂNG XUẤT -->
+                        <Button x:Name="btnMenuSettings"
+                                Content="⚙️  Cài đặt" 
+                                Style="{StaticResource MenuButtonStyle}"
+                                Click="btnMenuSettings_Click"/>
+
+                        <Button x:Name="btnLogout"
+                                Content="🚪  Đăng xuất" 
+                                Style="{StaticResource LogoutButtonStyle}"
+                                Click="btnLogout_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- TAB THU GỌN (Khi menu đóng) -->
+        <Border x:Name="menuCollapsed" 
+                Grid.Row="1" Grid.Column="0"
+                Style="{StaticResource MenuBorderStyle}"
+                Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Nút mở menu -->
+                <Border Grid.Row="0" 
+                        Background="#1565C0" 
+                        Padding="10,5">
+                    <Button x:Name="btnExpandMenu"
+                            Content="☰" 
+                            Width="30"
+                            Height="30"
+                            FontSize="18"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            HorizontalAlignment="Center"
+                            Click="btnToggleMenu_Click"
+                            ToolTip="Mở rộng menu"/>
+                </Border>
+
+                <!-- Chữ MENU dọc -->
+                <StackPanel Grid.Row="1" 
+                            VerticalAlignment="Top"
+                            Margin="0,20,0,0">
+                    <TextBlock Text="M"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,5"/>
+                    <TextBlock Text="E"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,5"/>
+                    <TextBlock Text="N"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,5"/>
+                    <TextBlock Text="U"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,5"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- NỘI DUNG CHÍNH - PANEL QUẢN LÝ BỆNH NHÂN -->
+        <local:PatientsControl x:Name="pnlPatients"
+                       Grid.Row="1" Grid.Column="1" 
+                       Margin="10"
+                       Visibility="Visible"/>
+        <!-- NỘI DUNG CHÍNH - PANEL QUẢN LÝ KHOA -->
+        <local:DepartmentsControl x:Name="pnlDepartments"
+                          Grid.Row="1" Grid.Column="1" 
+                          Margin="10"
+                          Visibility="Collapsed"/>
+        <!-- NỘI DUNG CHÍNH - PANEL QUẢN LÝ BÁC SĨ -->
+        <local:DoctorsControl x:Name="pnlDoctors"
+                      Grid.Row="1" Grid.Column="1" 
+                      Margin="10"
+                      Visibility="Collapsed"/>
+        <!-- NỘI DUNG CHÍNH - PANEL SỔ BỆNH ÁN -->
+        <local:MedicalRecordsControl x:Name="pnlMedicalRecords"
+                             Grid.Row="1" Grid.Column="1" 
+                             Margin="10"
+                             Visibility="Collapsed"/>
+        <!-- NỘI DUNG CHÍNH - PANEL QUẢN LÝ TÀI KHOẢN -->
+        <local:AccountsControl x:Name="pnlAccounts"
+                       Grid.Row="1" Grid.Column="1" 
+                       Margin="10"
+                       Visibility="Collapsed"/>
+        <!-- NỘI DUNG CHÍNH - PANEL QUẢN LÝ PHÒNG KHÁM -->
+        <local:ClinicRoomsControl x:Name="pnlClinicRooms"
+                          Grid.Row="1" Grid.Column="1" 
+                          Margin="10"
+                          Visibility="Collapsed"/>
+    </Grid>
+</Window>

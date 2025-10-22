@@ -102,6 +102,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateMedicalRecordWindow.xaml.cs">
+      <DependentUpon>CreateMedicalRecordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DepartmentsControl.xaml.cs">
       <DependentUpon>DepartmentsControl.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,10 @@
     <Compile Include="AccountsControl.xaml.cs">
       <DependentUpon>AccountsControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="CreateMedicalRecordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DepartmentsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

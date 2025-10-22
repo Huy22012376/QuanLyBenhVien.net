@@ -89,8 +89,17 @@ namespace HospitalManagementSystem
                 return;
             }
 
-            // TODO: Mở form tạo sổ bệnh án mới
-            MessageBox.Show($"Sẽ tạo sổ bệnh án mới cho: {_selectedPatient.FullName}", "Thông báo");
+            // Mở window popup
+            var createWindow = new CreateMedicalRecordWindow(_selectedPatient);
+            bool? result = createWindow.ShowDialog();
+
+            // Nếu tạo thành công, reload danh sách
+            if (result == true && createWindow.IsSuccess)
+            {
+                LoadPatientMedicalRecords(_selectedPatient.PatientId);
+                MessageBox.Show("Đã tạo sổ bệnh án thành công!", "Thông báo",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // Xem tất cả sổ bệnh án

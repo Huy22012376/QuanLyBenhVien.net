@@ -3,40 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Tạo Sổ Bệnh Án Mới" 
-        Height="700" Width="900"
+        Height="800" Width="950"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Background="#F5F5F5"
         Loaded="Window_Loaded">
 
+    
+
     <Window.Resources>
-        <!-- Card Style -->
         <Style x:Key="CardStyle" TargetType="Border">
             <Setter Property="Background" Value="White"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="20"/>
             <Setter Property="Margin" Value="0,0,0,15"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.2"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="8" Opacity="0.15"/>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <!-- Label Style -->
         <Style x:Key="LabelStyle" TargetType="Label">
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Margin" Value="0,8,0,3"/>
         </Style>
 
-        <!-- TextBox Style -->
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="Height" Value="35"/>
             <Setter Property="Padding" Value="8"/>
@@ -45,7 +41,6 @@
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
-        <!-- Button Style -->
         <Style x:Key="PrimaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#1976D2"/>
             <Setter Property="Foreground" Value="White"/>
@@ -79,6 +74,30 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#616161"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E3F2FD"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -117,7 +136,7 @@
         <ScrollViewer Grid.Row="1" 
                       VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <!-- THÔNG TIN CÁ NHÂN -->
+                <!-- THÔNG TIN BỆNH NHÂN -->
                 <Border Style="{StaticResource CardStyle}">
                     <StackPanel>
                         <TextBlock Text="📌 THÔNG TIN BỆNH NHÂN"
@@ -195,6 +214,16 @@
                                           FontSize="13"
                                           DisplayMemberPath="FullName"
                                           SelectedValuePath="DoctorId"/>
+
+                                <Label Content="Khoa điều trị: *" 
+                                       Style="{StaticResource LabelStyle}"
+                                       Foreground="#D32F2F"/>
+                                <ComboBox x:Name="cmbDepartment"
+                                          Height="35"
+                                          FontSize="13"
+                                          DisplayMemberPath="DepartmentName"
+                                          SelectedValuePath="DepartmentId"
+                                          SelectionChanged="cmbDepartment_SelectionChanged"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -205,7 +234,13 @@
                                             Height="35"
                                             FontSize="13"
                                             SelectedDate="{x:Static sys:DateTime.Now}"
-                                            xmlns:sys="clr-namespace:System;assembly=mscorlib"/>
+                                            SelectedDateChanged="dpAdmissionDate_SelectedDateChanged"/>
+                                <TextBlock x:Name="txtDateError"
+                                           Text=""
+                                           Foreground="#D32F2F"
+                                           FontSize="11"
+                                           Margin="5,2,0,0"
+                                           Visibility="Collapsed"/>
 
                                 <Label Content="Trạng thái:" Style="{StaticResource LabelStyle}"/>
                                 <ComboBox x:Name="cmbStatus"
@@ -230,7 +265,7 @@
                                    Foreground="#1976D2"
                                    Margin="0,0,0,15"/>
 
-                        <Label Content="Chẩn đoán ban đầu: *" 
+                        <Label Content="Chẩn đoán ban đầu: * (Tối đa 500 ký tự)" 
                                Style="{StaticResource LabelStyle}"
                                Foreground="#D32F2F"/>
                         <TextBox x:Name="txtInitialDiagnosis"
@@ -241,9 +276,18 @@
                                  Padding="8"
                                  FontSize="13"
                                  BorderBrush="#BDBDBD"
-                                 BorderThickness="1"/>
+                                 BorderThickness="1"
+                                 MaxLength="500"
+                                 TextChanged="txtInitialDiagnosis_TextChanged"/>
+                        <TextBlock x:Name="txtDiagnosisCount"
+                                   Text="0/500 ký tự"
+                                   FontSize="11"
+                                   Foreground="Gray"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,2,0,0"/>
 
-                        <Label Content="Kế hoạch điều trị:" Style="{StaticResource LabelStyle}"/>
+                        <Label Content="Kế hoạch điều trị: (Tối đa 1000 ký tự)" 
+                               Style="{StaticResource LabelStyle}"/>
                         <TextBox x:Name="txtTreatmentPlan"
                                  Height="100"
                                  TextWrapping="Wrap"
@@ -252,7 +296,15 @@
                                  Padding="8"
                                  FontSize="13"
                                  BorderBrush="#BDBDBD"
-                                 BorderThickness="1"/>
+                                 BorderThickness="1"
+                                 MaxLength="1000"
+                                 TextChanged="txtTreatmentPlan_TextChanged"/>
+                        <TextBlock x:Name="txtPlanCount"
+                                   Text="0/1000 ký tự"
+                                   FontSize="11"
+                                   Foreground="Gray"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,2,0,0"/>
 
                         <Label Content="Ghi chú:" Style="{StaticResource LabelStyle}"/>
                         <TextBox x:Name="txtNotes"
@@ -266,6 +318,67 @@
                                  BorderThickness="1"/>
                     </StackPanel>
                 </Border>
+
+                <!-- FILE ĐÍNH KÈM -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="📎 FILE ĐÍNH KÈM"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#1976D2"
+                                   Margin="0,0,0,15"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox x:Name="txtAttachment"
+                                     Grid.Column="0"
+                                     Style="{StaticResource TextBoxStyle}"
+                                     IsReadOnly="True"
+                                     Background="#F5F5F5"
+                                     Text="Chưa có file đính kèm"/>
+
+                            <Button Grid.Column="1"
+                                    Content="📁 Chọn file"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Width="120"
+                                    Margin="10,0,0,0"
+                                    Click="btnBrowseFile_Click"/>
+                        </Grid>
+
+                        <TextBlock Text="Hỗ trợ: PDF, DOC, DOCX, JPG, PNG (Tối đa 10MB)"
+                                   FontSize="11"
+                                   Foreground="Gray"
+                                   Margin="0,5,0,0"/>
+
+                        <ListBox x:Name="lstAttachments"
+                                 Height="100"
+                                 Margin="0,10,0,0"
+                                 Visibility="Collapsed">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding}" 
+                                                   Grid.Column="0"
+                                                   VerticalAlignment="Center"/>
+                                        <Button Content="❌" 
+                                                Grid.Column="1"
+                                                Style="{StaticResource IconButtonStyle}"
+                                                Tag="{Binding}"
+                                                Click="btnRemoveFile_Click"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
 
@@ -275,18 +388,65 @@
                 BorderBrush="#E0E0E0"
                 BorderThickness="0,1,0,0"
                 Padding="0,15,0,0">
-            <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Right">
-                <Button Content="✖ Hủy bỏ"
-                        Style="{StaticResource SecondaryButtonStyle}"
-                        Width="120"
-                        Margin="0,0,10,0"
-                        Click="btnCancel_Click"/>
-                <Button Content="💾 Tạo sổ bệnh án"
-                        Style="{StaticResource PrimaryButtonStyle}"
-                        Width="150"
-                        Click="btnCreate_Click"/>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" 
+                            x:Name="pnlProgress"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Visibility="Collapsed">
+                    <ProgressBar Width="200" 
+                                 Height="20"
+                                 IsIndeterminate="True"/>
+                    <TextBlock Text="Đang lưu dữ liệu..."
+                               Margin="10,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="13"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Right">
+                    <Button Content="🖨️ In giấy"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Width="120"
+                            Margin="0,0,10,0"
+                            Click="btnPrint_Click"/>
+                    <Button Content="✖ Hủy"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Width="100"
+                            Margin="0,0,10,0"
+                            Click="btnCancel_Click"/>
+                    <Button x:Name="btnCreate"
+                            Content="💾 Tạo sổ BA"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Width="130"
+                            Click="btnCreate_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- TOAST NOTIFICATION -->
+        <Border x:Name="toastNotification"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Background="#323232"
+                CornerRadius="5"
+                Padding="20,15"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,30"
+                Visibility="Collapsed"
+                Opacity="0">
+            <TextBlock x:Name="txtToast"
+                       Text="Thông báo"
+                       Foreground="White"
+                       FontSize="14"
+                       TextAlignment="Center"/>
         </Border>
     </Grid>
 </Window>
